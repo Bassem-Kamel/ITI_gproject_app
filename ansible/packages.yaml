@@ -1,6 +1,0 @@
-- name: install packages
-  hosts: bastionvm
-  roles:
-    - roles/kubectl
-    - roles/docker
-    - roles/jslave

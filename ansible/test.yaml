@@ -1,9 +1,0 @@
-
-- name: testing .....
-  hosts: bastionvm
-  tasks:
-
-  - name: copy files
-    copy:
-      src: ../k8s
-      dest: /home/bassem/
