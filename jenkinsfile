@@ -1,42 +1,64 @@
 pipeline {
-    agent { label'slave' }
-
-
+    agent none 
+      
     stages {
-        stage('Build') {
-            steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/Bassem-Kamel/node.js_app'
-
+        stage('dynamic agent') {
+            agent {
+                kubernetes {
+                    yaml '''
+                        apiVersion: v1
+                        kind: Pod
+                        spec:
+                          containers:
+                          - name: docker
+                            image: docker:latest
+                            command:
+                            - cat
+                            tty: true
+                            volumeMounts:
+                             - mountPath: /var/run/docker.sock
+                               name: docker-sock
+                          volumes:
+                          - name: docker-sock
+                            hostPath:
+                              path: /var/run/docker.sock
+                        '''
+                        }
             }
-        }
-        stage('ci') {
-            steps {
-                    withCredentials([usernamePassword(credentialsId: 'mydockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
 
+            steps {
+                container('docker') {
+                    git 'https://github.com/Bassem-Kamel/node.js_app'
+                    sh "echo texsting ..........."
+                    withCredentials([usernamePassword(credentialsId: 'mydockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+            
                     sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                     sh "docker build . -f dockerfile -t bassem22docker/myrepo:nodeapp"
-
+                    sh "docker push bassem22docker/myrepo:nodeapp"
+            
                 }
-            }
-
-        }
-
-        stage('push') {
-            steps {
-
-              sh "docker push bassem22docker/myrepo:nodeapp"
-
-            }
-
-        stage ('deploy app'){
-            steps {
-                sh """
-                kubectl apply -f app.yaml
-                echo done
-            """
-            }
-
-        }
+                }
+      }
+            
+            
     }
-}
+    
+    
+        stage('Apply Kubernetes files') {
+            agent {
+                label 'master'
+            }
+            steps {
+                    git 'https://github.com/Bassem-Kamel/ITI_gproject_app'
+                    sh 'kubectl config view'
+                    sh 'gcloud container clusters get-credentials my-cluster1 --zone europe-west1-b --project iti-gproject'
+                    sh 'kubectl create -f app_deployment.yaml'
+                }
+        }
+     
+      
+
+    
+  }
+  
+ }
