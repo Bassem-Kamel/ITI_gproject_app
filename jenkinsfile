@@ -1,0 +1,42 @@
+pipeline {
+    agent { label'slave' }
+
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/Bassem-Kamel/node.js_app'
+
+            }
+        }
+        stage('ci') {
+            steps {
+                    withCredentials([usernamePassword(credentialsId: 'mydockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+
+                    sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                    sh "docker build . -f dockerfile -t bassem22docker/myrepo:nodeapp"
+
+                }
+            }
+
+        }
+
+        stage('push') {
+            steps {
+
+              sh "docker push bassem22docker/myrepo:nodeapp"
+
+            }
+
+        stage ('deploy app'){
+            steps {
+                sh """
+                kubectl apply -f app.yaml
+                echo done
+            """
+            }
+
+        }
+    }
+}

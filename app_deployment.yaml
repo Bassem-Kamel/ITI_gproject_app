@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  namespace: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+        - name: node
+          image: bassem22docker/myrepo:nodeapp
+          ports:
+            - name: app
+              containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: load-balancer
+  namespace: application
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodeapp
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+
