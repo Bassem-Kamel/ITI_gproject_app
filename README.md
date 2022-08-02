@@ -38,7 +38,7 @@
 
 ## 2. Create jenkins pipeline
 
-1. Create dynamic pod with (docker in docker) image 
+1. **Create dynamic pod with (docker in docker) image**
     
     ```bash
     pipeline {
@@ -71,7 +71,7 @@
     ```
     
 
-1. Build the app image and push it to dockerhub with the dynamic agent
+2. **Build the app image and push it to dockerhub with the dynamic agent**
 
 ```bash
 steps {
@@ -88,7 +88,7 @@ steps {
       }
 ```
 
-1. Use jenkins server to create app deployment
+3. **Use jenkins server to create app deployment**
     
     ```bash
     stage('App deployment on GKE') {
@@ -110,6 +110,6 @@ steps {
     
     ![Untitled](images/Untitled%204.png)
     
-    1. **Acces the app**
+    2. **Acces the app**
     
     ![Untitled](images/Untitled%205.png)
