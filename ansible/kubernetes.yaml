@@ -39,7 +39,7 @@
     register: deploy
   - name: create deployment
     shell: kubectl create -f /home/bassem/k8s/deployment.yaml
-    when: (deploy.stdout == "") and (pvc.stdout != "")
+    when: deploy.stdout == ""
 
   - name : check loadbalancer
     shell: echo $(kubectl get svc --namespace devops-tools | grep load-balancer)
@@ -48,7 +48,16 @@
     shell: kubectl create -f /home/bassem/k8s/loadbalancer.yaml
     when: lb.stdout == ""
 
+  - name : check slaveservice
+    shell: echo $(kubectl get svc --namespace devops-tools | grep jenkins-jnlp)
+    register: slaveservice
+  - name: create slaveservice
+    shell: kubectl create -f /home/bassem/k8s/slave_service.yaml
+    when: slaveservice.stdout == ""
 
 
+
+  - name: select devops-tools as default namespace
+    shell: kubectl config set-context --current --namespace devops-tools
 
 

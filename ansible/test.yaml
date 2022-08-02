@@ -3,7 +3,7 @@
   hosts: bastionvm
   tasks:
 
-  - name: getcredentials
-    become: true
-    shell: echo $(gcloud container clusters get-credentials my-cluster1 --zone europe-west1-b --project iti-gproject) > /home/bassem/file1
-
+  - name: copy files
+    copy:
+      src: ../k8s
+      dest: /home/bassem/
