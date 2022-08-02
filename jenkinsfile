@@ -28,7 +28,7 @@ pipeline {
 
             steps {
                 container('docker') {
-                    git 'https://github.com/Bassem-Kamel/node.js_app'
+                    git 'https://github.com/Bassem-Kamel/ITI_gproject_app'
                     sh "echo texsting ..........."
                     withCredentials([usernamePassword(credentialsId: 'mydockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
             
@@ -44,7 +44,7 @@ pipeline {
     }
     
     
-        stage('Apply Kubernetes files') {
+        stage('App deployment on GKE') {
             agent {
                 label 'master'
             }
