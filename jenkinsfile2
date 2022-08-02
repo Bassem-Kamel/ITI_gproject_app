@@ -1,0 +1,61 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock
+        '''
+    }
+    
+  }
+  
+  stages{
+      
+    stage('Build') {
+        steps {
+            // Get some code from a GitHub repository
+            git 'https://github.com/Bassem-Kamel/node.js_app'
+    
+        }
+    }
+      
+    stage('test') {
+      steps {
+        container('docker') {
+            sh "echo texsting ..........."
+            withCredentials([usernamePassword(credentialsId: 'mydockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+    
+            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+            sh "docker build . -f dockerfile -t bassem22docker/myrepo:nodeapp"
+            sh "docker push bassem22docker/myrepo:nodeapp"
+    
+        }
+        }
+      }
+    }
+
+  }
+}
+
+
+    stage('Apply Kubernetes files') {
+        steps {
+            withKubeConfig([credentialsId: 'jenkins-kubernetes-token', serverUrl: 'https://10.10.0.2']) {
+            sh 'kubectl config view'
+            }
+        }
+     }

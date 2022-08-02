@@ -19,7 +19,7 @@ spec:
       serviceAccountName: jenkins-admin
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: bassem22docker/myrepo:jenkinskube
           ports:
             - name: httpport
               containerPort: 8080
