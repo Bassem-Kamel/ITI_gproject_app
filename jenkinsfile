@@ -33,7 +33,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
             
                     sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                    sh "docker build . -t bassem22docker/myrepo:nodeapp"
+                    sh "docker build ./node.js_app -t bassem22docker/myrepo:nodeapp"
                     sh "docker push bassem22docker/myrepo:nodeapp"
             
                 }
