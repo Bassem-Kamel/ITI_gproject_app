@@ -1,0 +1,54 @@
+- name: create jenkins deployment
+  hosts: bastionvm
+  become: false
+  tasks:
+
+  - name: getcredentials
+    shell: gcloud container clusters get-credentials my-cluster1 --zone europe-west1-b --project iti-gproject
+
+  - name: copy files
+    copy:
+      src: ../k8s
+      dest: /home/bassem/
+
+
+  - name : check namespaces
+    shell: echo $(kubectl get namespace | grep devops-tools)
+    register: namespace
+  - name: create namespace
+    shell: kubectl create -f /home/bassem/k8s/namespace.yaml
+    when: namespace.stdout == ""
+
+  - name : check ServiceAccount
+    shell: echo $(kubectl get ServiceAccount --namespace devops-tools | grep jenkins-admin)
+    register: sa
+  - name: create ServiceAccount
+    shell: kubectl create -f /home/bassem/k8s/serviceAccount.yaml
+    when: sa.stdout == ""
+
+  - name : check PersistentVolumeClaim
+    shell: echo $(kubectl get PersistentVolumeClaim --namespace devops-tools | grep jenkins-pv-claim)
+    register: pvc
+  - name: create PersistentVolumeClaim
+    shell: kubectl create -f /home/bassem/k8s/cloud_volume.yaml
+    when: pvc.stdout == ""
+
+
+  - name : check deployment
+    shell: echo $(kubectl get deployment --namespace devops-tools | grep jenkins)
+    register: deploy
+  - name: create deployment
+    shell: kubectl create -f /home/bassem/k8s/deployment.yaml
+    when: (deploy.stdout == "") and (pvc.stdout != "")
+
+  - name : check loadbalancer
+    shell: echo $(kubectl get svc --namespace devops-tools | grep load-balancer)
+    register: lb
+  - name: create loadbalancer
+    shell: kubectl create -f /home/bassem/k8s/loadbalancer.yaml
+    when: lb.stdout == ""
+
+
+
+
+

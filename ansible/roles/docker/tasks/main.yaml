@@ -1,0 +1,47 @@
+
+
+- name: Install  packages 4
+  apt:
+    name: lsb-release
+    state: present
+
+- name: Creates directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+
+- name: Check if gpg exists
+  stat:
+    path: /etc/apt/keyrings/docker.gpg
+  register: result
+
+- name: add gpg key
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  when: not result.stat.exists
+
+- name: add repo
+  shell: |
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: update
+  apt: 
+    update_cache: yes   
+    #ignore_errors: yes 
+
+- name: Install docker and its dependecies
+  apt: 
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - docker-ce 
+    - docker-ce-cli 
+    - containerd.io
+
+- name: add user to docker group
+  shell: |
+    usermod -aG docker bassem
+    chmod 666 /var/run/docker.sock
