@@ -9,10 +9,6 @@
 - Create jenkins pipeline
 - Check the app
 
-<p align="center">
-<img src="images/pipeline.png" width="570" height="220" title="hover text">
-</p>
-
 
 #
 ## 1. Configure jenkins server
@@ -20,7 +16,11 @@
 
 ### 1. **Install plugins (kubernetes plugin)**
 
-![Untitled](images/Untitled.png)
+
+<p align="center">
+<img src="images/Untitled.png" width="520" height="350" title="hover text">
+</p>
+
 
 ### 2. **Create credentials**
 
