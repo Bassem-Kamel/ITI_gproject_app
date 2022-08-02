@@ -9,6 +9,11 @@
 - Create jenkins pipeline
 - Check the app
 
+<p align="center">
+<img src="images/pipeline.png" width="570" height="220" title="hover text">
+</p>
+
+
 #
 ## 1. Configure jenkins server
 
@@ -21,20 +26,30 @@
 
 - Github account
 - dockerhub
+<p align="center">
+<img src="images/Untitled%201.png" width="550" height="250" title="hover text">
+</p>
 
-![Untitled](images/Untitled%201.png)
+
 
 ### 3. Configure the nodes
 
 - Make built in node with label “master”
 
-![Untitled](images/Untitled%202.png)
+<p align="center">
+<img src="images/Untitled%202.png" width="550" height="250" title="hover text">
+</p>
+
+
 
 - Create Kubernetes cloud node
     - Select namespace
     - jenkins tunnel
 
-![Untitled](images/Untitled%203.png)
+<p align="center">
+<img src="images/Untitled%203.png" width="540" height="330" title="hover text">
+</p>
+
 
 ## 2. Create jenkins pipeline
 
