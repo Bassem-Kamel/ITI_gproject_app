@@ -4,10 +4,14 @@
 <h2 align="center">App</h2>
 
 
+## Reguirements 
+- Configure jenkins server
+- Create jenkins pipeline
+- Check the app
 
-
-
+#
 ## 1. Configure jenkins server
+
 
 ### 1. **Install plugins (kubernetes plugin)**
 
