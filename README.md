@@ -1,8 +1,8 @@
-<header>
+
 <h1 align="center">ITI-Graduation-Project</h1>
 
 <h2 align="center">App</h2>
-</header>
+
 
 
 ### **Requirements** 
@@ -68,36 +68,9 @@ diagram :
 
 1. **Create dynamic pod with (docker in docker) image**
     
-    ```bash
-    pipeline {
-        agent none 
-          
-        stages {
-            stage('dynamic agent') {
-                agent {
-                    kubernetes {
-                        yaml '''
-                            apiVersion: v1
-                            kind: Pod
-                            spec:
-                              containers:
-                              - name: docker
-                                image: docker:latest
-                                command:
-                                - cat
-                                tty: true
-                                volumeMounts:
-                                 - mountPath: /var/run/docker.sock
-                                   name: docker-sock
-                              volumes:
-                              - name: docker-sock
-                                hostPath:
-                                  path: /var/run/docker.sock
-                            '''
-                            }
-                }
-    ```
-    
+<p align="center">
+<img src="images/dagent.png" width="540" height="auto" title="hover text">
+</p>
 
 2. **Build the app image and push it to dockerhub with the dynamic agent**
 
