@@ -92,10 +92,10 @@ steps {
     
 
 <p align="center">
-<img src="images/app.png" width="540" height="auto" title="hover text">
+<img src="images/appd.png" width="540" height="auto" title="hover text">
 </p>
 
-    ```bash
+```bash
     stage('App deployment on GKE') {
         agent {
             label 'master'
@@ -107,14 +107,15 @@ steps {
                 sh 'kubectl create -f app_deployment.yaml'
             }
     }
-    ```
-    
-    ## 3. Check the app deployment
-    
-    1. **Get external ip of the loadbalancer**
-    
-    ![Untitled](images/Untitled%204.png)
-    
-    2. **Acces the app**
-    
-    ![Untitled](images/Untitled%205.png)
+```
+
+
+## 3. Check the app deployment
+
+1. **Get external ip of the loadbalancer**
+
+![Untitled](images/Untitled%204.png)
+
+2. **Acces the app**
+
+![Untitled](images/Untitled%205.png)
