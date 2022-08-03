@@ -78,7 +78,6 @@ diagram :
 steps {
       container('docker') {
           git 'https://github.com/Bassem-Kamel/ITI_gproject_app'
-          sh "echo texsting ..........."
           withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
   
           sh "docker login -u ${USERNAME} -p ${PASSWORD}"
@@ -91,6 +90,11 @@ steps {
 
 3. **Use jenkins server to create app deployment**
     
+
+<p align="center">
+<img src="images/app.png" width="540" height="auto" title="hover text">
+</p>
+
     ```bash
     stage('App deployment on GKE') {
         agent {
