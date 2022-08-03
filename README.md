@@ -4,8 +4,9 @@
 <h2 align="center">App</h2>
 
 
+<br></br>
 
-## Reguirements 
+## Requirements 
 • Deploy backend application on kubernetes cluster using CI/CD
 jenkins pipeline using the following steps and high-level
 diagram :
