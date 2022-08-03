@@ -5,10 +5,22 @@
 
 
 ## Reguirements 
+• Deploy backend application on kubernetes cluster using CI/CD
+jenkins pipeline using the following steps and high-level
+diagram :
+1. Implement secure Kubernetes cluster (infrastructure)
+2. Deploy and configure Jenkins on Kubernetes. (infrastructure)
+3. Deploy backend application on Kubernetes using Jenkins pipeline.
+
+## steps
 - Configure jenkins server
 - Create jenkins pipeline
 - Check the app
 
+
+<p align="center">
+<img src="images/pro.png" width="430" height="auto" title="hover text">
+</p>
 
 #
 ## 1. Configure jenkins server
@@ -18,7 +30,7 @@
 
 
 <p align="center">
-<img src="images/Untitled.png" width="520" height="350" title="hover text">
+<img src="images/Untitled.png" width="500" height="auto" title="hover text">
 </p>
 
 
